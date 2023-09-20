@@ -1,8 +1,10 @@
 package br.com.igorbag.githubsearch.ui
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.igorbag.githubsearch.R
 import br.com.igorbag.githubsearch.data.GitHubService
 import br.com.igorbag.githubsearch.domain.Repository
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,26 +29,54 @@ class MainActivity : AppCompatActivity() {
         showUserName()
         setupRetrofit()
         getAllReposByUserName()
+        setupListeners()
     }
 
     // Metodo responsavel por realizar o setup da view e recuperar os Ids do layout
     fun setupView() {
         //@TODO 1 - Recuperar os Id's da tela para a Activity com o findViewById
+
+        nomeUsuario = findViewById(R.id.et_nome_usuario)
+        btnConfirmar = findViewById(R.id.btn_confirmar)
+        listaRepositories = findViewById(R.id.rv_lista_repositories)
     }
 
     //metodo responsavel por configurar os listeners click da tela
     private fun setupListeners() {
         //@TODO 2 - colocar a acao de click do botao confirmar
+
+        btnConfirmar.setOnClickListener {
+            val user: String = nomeUsuario.text.toString()
+
+            saveUserLocal(user)
+
+//            Log.d("userGit", "$user")
+        }
     }
 
 
     // salvar o usuario preenchido no EditText utilizando uma SharedPreferences
-    private fun saveUserLocal() {
+    private fun saveUserLocal(user: String) {
         //@TODO 3 - Persistir o usuario preenchido na editText com a SharedPref no listener do botao salvar
+
+        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString(getString(R.string.saved_user), user)
+            apply()
+        }
+
     }
 
     private fun showUserName() {
         //@TODO 4- depois de persistir o usuario exibir sempre as informacoes no EditText  se a sharedpref possuir algum valor, exibir no proprio editText o valor salvo
+        val userSaved: String = getSharedPref()
+        val editableUser = Editable.Factory.getInstance().newEditable(userSaved)
+        nomeUsuario.text = editableUser
+    }
+
+    fun getSharedPref(): String {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        return sharedPref.getString(getString(R.string.saved_user), "") ?: ""
     }
 
     //Metodo responsavel por fazer a configuracao base do Retrofit
@@ -55,11 +87,18 @@ class MainActivity : AppCompatActivity() {
            URL_BASE da API do  GitHub= https://api.github.com/
            lembre-se de utilizar o GsonConverterFactory mostrado no curso
         */
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.github.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        githubApi = retrofit.create(GitHubService::class.java)
     }
 
     //Metodo responsavel por buscar todos os repositorios do usuario fornecido
     fun getAllReposByUserName() {
         // TODO 6 - realizar a implementacao do callback do retrofit e chamar o metodo setupAdapter se retornar os dados com sucesso
+        
     }
 
     // Metodo responsavel por realizar a configuracao do adapter
