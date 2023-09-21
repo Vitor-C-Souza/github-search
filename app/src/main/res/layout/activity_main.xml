@@ -38,7 +38,8 @@
         android:text="@string/confirmar"
         app:layout_constraintEnd_toEndOf="@id/et_nome_usuario"
         app:layout_constraintStart_toStartOf="@id/et_nome_usuario"
-        app:layout_constraintTop_toBottomOf="@id/et_nome_usuario" />
+        app:layout_constraintTop_toBottomOf="@id/et_nome_usuario"
+        android:background="@color/design_default_color_secondary"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_lista_repositories"
@@ -50,6 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_confirmar"
         tools:listitem="@layout/repository_item"
+        android:visibility="gone"
         />
 
     <ImageView
@@ -74,6 +76,44 @@
         app:layout_constraintEnd_toEndOf="parent"
         style="@style/TextAppearance.MaterialComponents.Body1"
         android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintTop_toBottomOf="@id/btn_confirmar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:indeterminate="true"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/iv_noInternet"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_signal_cellular_connected_no_internet"
+        app:layout_constraintTop_toBottomOf="@id/btn_confirmar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/sem_internet"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/tv_noInternet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/erro_internet_n_o_detectada"
+        app:layout_constraintTop_toBottomOf="@+id/iv_noInternet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:visibility="gone"
+        />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

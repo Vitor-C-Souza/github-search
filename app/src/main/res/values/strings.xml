@@ -3,7 +3,9 @@
     <string name="nome_usuario">Nome do usuário</string>
     <string name="confirmar">Confirmar</string>
     <string name="saved_user">saved_user</string>
-    <string name="error_content_not_found">Error: Content not found!</string>
+    <string name="error_content_not_found">Erro: conteudo não encontrado!</string>
     <string name="share_image">Share Image</string>
     <string name="error_image">Error Image</string>
+    <string name="erro_internet_n_o_detectada">Erro: Internet não detectada</string>
+    <string name="sem_internet">Sem internet</string>
 </resources>
